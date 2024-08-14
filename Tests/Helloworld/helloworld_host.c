@@ -7,18 +7,27 @@
 #define DPU_BINARY "./helloworld1"
 #endif
 
-int main(void) {
+int main(void) 
+{
   struct dpu_set_t set, dpu;
+  uint32_t num_ranks, num_dpus;
+
+  // Allocate DPUs
   DPU_ASSERT(dpu_alloc(4, NULL, &set));
-  uint32_t num_ranks,num_dpus;
-  dpu_get_nr_ranks(set,&num_ranks);
-  dpu_get_nr_dpus(set,&num_dpus);
+  DPU_ASSERT(dpu_get_nr_ranks(set,&num_ranks));
+  DPU_ASSERT(dpu_get_nr_dpus(set,&num_dpus));
+
   printf("\nnumber of ranks for set %d",num_ranks);
-  printf("\nnumber of dpus for set %d",num_dpus);
+  printf("\nnumber of dpus for set %d\n\n",num_dpus);
+
+  // Load binary
   DPU_ASSERT(dpu_load(set, DPU_BINARY, NULL));
   DPU_ASSERT(dpu_launch(set, DPU_SYNCHRONOUS));
-  DPU_FOREACH(set, dpu) {
-  DPU_ASSERT(dpu_log_read(dpu, stdout));
+
+  // 
+  DPU_FOREACH(set, dpu) 
+  {
+    DPU_ASSERT(dpu_log_read(dpu, stdout));
   }
 
   DPU_ASSERT(dpu_free(set));
