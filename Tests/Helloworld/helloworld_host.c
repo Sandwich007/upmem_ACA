@@ -4,12 +4,12 @@
 #include <stdio.h>
 #include <stdint.h>
 #ifndef DPU_BINARY
-#define DPU_BINARY "./helloworld"
+#define DPU_BINARY "./helloworld1"
 #endif
 
 int main(void) {
   struct dpu_set_t set, dpu;
-  DPU_ASSERT(dpu_alloc(1, NULL, &set));
+  DPU_ASSERT(dpu_alloc(4, NULL, &set));
   uint32_t num_ranks,num_dpus;
   dpu_get_nr_ranks(set,&num_ranks);
   dpu_get_nr_dpus(set,&num_dpus);
